@@ -148,6 +148,156 @@ export const projects = [
     github: 'https://github.com/IstiakAR/Among-Us',
     demo: '',
   },
+  {
+    id: 'dotfiles',
+    name: 'Dotfiles',
+    subtitle: 'Linux desktop configuration',
+    description:
+      'Public Linux dotfiles and desktop tooling — Hyprland, KDE and custom shell setup.',
+    technologies: ['Lua', 'Linux', 'Hyprland', 'Shell'],
+    github: 'https://github.com/IstiakAR/dotfiles',
+    demo: '',
+  },
+  {
+    id: 'hellpaper',
+    name: 'Hellpaper',
+    subtitle: 'Wallpaper picker for Linux',
+    description:
+      'TUI wallpaper picker for Linux — browse, set and switch wallpapers from the terminal.',
+    technologies: ['C++', 'Linux', 'TUI'],
+    github: 'https://github.com/IstiakAR/hellpaper',
+    demo: '',
+  },
+  {
+    id: 'restaurant',
+    name: 'Restaurant',
+    subtitle: 'Restaurant landing page',
+    description:
+      'Responsive restaurant website with menu, gallery and reservation sections.',
+    technologies: ['JavaScript', 'HTML/CSS'],
+    github: 'https://github.com/IstiakAR/Restaurant',
+    demo: 'https://istiakar.github.io/Restaurant/',
+  },
+  {
+    id: 'pacman',
+    name: 'Pacman',
+    subtitle: 'Pac-Man clone in C++',
+    description:
+      'Classic Pac-Man game implemented from scratch in C++.',
+    technologies: ['C++', 'Game Dev'],
+    github: 'https://github.com/IstiakAR/Pacman',
+    demo: '',
+  },
+  {
+    id: 'automation',
+    name: 'Automation',
+    subtitle: 'Desktop automation scripts',
+    description:
+      'Collection of Node.js scripts for automating repetitive desktop tasks.',
+    technologies: ['JavaScript', 'Node.js'],
+    github: 'https://github.com/IstiakAR/Automation',
+    demo: '',
+  },
+  {
+    id: 'drugscript',
+    name: 'DrugScript',
+    subtitle: 'Drug interaction checker',
+    description:
+      'Dart/Flutter app for looking up drug information and checking interactions.',
+    technologies: ['Dart', 'Flutter'],
+    github: 'https://github.com/IstiakAR/DrugScript',
+    demo: '',
+  },
+  {
+    id: 'weather',
+    name: 'Weather',
+    subtitle: 'Weather forecast app',
+    description:
+      'Weather app fetching live forecasts from a public API with city search.',
+    technologies: ['JavaScript', 'API'],
+    github: 'https://github.com/IstiakAR/Weather',
+    demo: 'https://istiakar.github.io/Weather/',
+  },
+  {
+    id: 'memory-card',
+    name: 'Memory Card',
+    subtitle: 'Memory matching game',
+    description:
+      'Card-matching game built with React — score tracking and shuffled decks.',
+    technologies: ['JavaScript', 'React'],
+    github: 'https://github.com/IstiakAR/Memory-Card',
+    demo: 'https://memory-card-istiakar.netlify.app/',
+  },
+  {
+    id: 'cv-application',
+    name: 'CV Application',
+    subtitle: 'Résumé builder',
+    description:
+      'Interactive CV/resume builder with live preview and editable sections.',
+    technologies: ['JavaScript', 'React'],
+    github: 'https://github.com/IstiakAR/CV-Application',
+    demo: '',
+  },
+  {
+    id: 'todo',
+    name: 'ToDo',
+    subtitle: 'Todo list app',
+    description:
+      'Todo list with projects, due dates and local storage persistence.',
+    technologies: ['JavaScript'],
+    github: 'https://github.com/IstiakAR/ToDo',
+    demo: 'https://istiakar.github.io/ToDo/',
+  },
+  {
+    id: 'library',
+    name: 'Library',
+    subtitle: 'Book library tracker',
+    description:
+      'Track books read, reading status and ratings in a simple library shelf UI.',
+    technologies: ['JavaScript'],
+    github: 'https://github.com/IstiakAR/Library',
+    demo: 'https://istiakar.github.io/Library/',
+  },
+  {
+    id: 'tic-tac-toe',
+    name: 'Tic-Tac-Toe',
+    subtitle: 'Tic-tac-toe game',
+    description:
+      'Classic tic-tac-toe with unbeatable minimax AI and score tracking.',
+    technologies: ['JavaScript'],
+    github: 'https://github.com/IstiakAR/Tic-Tac-Toe',
+    demo: 'https://istiakar.github.io/Tic-Tac-Toe/',
+  },
+  {
+    id: 'etch-a-sketch',
+    name: 'Etch-a-Sketch',
+    subtitle: 'Drawing pad',
+    description:
+      'Pixel drawing pad with hover-draw, grid resize and rainbow mode.',
+    technologies: ['JavaScript'],
+    github: 'https://github.com/IstiakAR/Etch-a-sketch',
+    demo: 'https://istiakar.github.io/Etch-a-sketch/',
+  },
+  {
+    id: 'calculator',
+    name: 'Calculator',
+    subtitle: 'Calculator app',
+    description:
+      'Functional calculator with keyboard support and chained operations.',
+    technologies: ['JavaScript'],
+    github: 'https://github.com/IstiakAR/Calculator',
+    demo: 'https://istiakar.github.io/Calculator/',
+  },
+  {
+    id: 'rock-paper-scissor',
+    name: 'Rock Paper Scissors',
+    subtitle: 'Rock-paper-scissors game',
+    description:
+      'Rock-paper-scissors against the computer with round scoring.',
+    technologies: ['JavaScript'],
+    github: 'https://github.com/IstiakAR/Rock-Paper-Scissor',
+    demo: 'https://istiakar.github.io/Rock-Paper-Scissor/',
+  },
 ]
 
 export const experience = [] // [PLACEHOLDER] add internships/jobs here when available

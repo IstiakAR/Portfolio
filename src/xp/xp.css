@@ -11,10 +11,19 @@
   --xp-title-active: linear-gradient(
     180deg,
     #0058ee 0%,
-    #3d95ff 8%,
-    #0754e0 40%,
-    #034af0 88%,
-    #0146c8 100%
+    #3593ff 4%,
+    #288eff 6%,
+    #127dff 8%,
+    #036ffc 10%,
+    #0262ee 14%,
+    #0057e5 20%,
+    #0054e3 24%,
+    #0055eb 56%,
+    #005bf5 66%,
+    #026afe 76%,
+    #0062ef 86%,
+    #0052d6 92%,
+    #0040ab 100%
   );
   --xp-title-inactive: linear-gradient(
     180deg,
@@ -36,16 +45,114 @@
   font-size: 11px;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   position: fixed;
   inset: 0;
   overflow: hidden;
   background: url('/windows.jpg') center / cover no-repeat;
   user-select: none;
   cursor: default;
+  /* XP is a light theme: force dark text + light native controls so
+     dark-mode browsers don't paint white text on our light surfaces. */
+  color: #1a1a1a;
+  color-scheme: light;
+  /* #root has a leftover text-align: center — XP is left-aligned. */
+  text-align: left;
 }
 
 .xp-desktop * {
   box-sizing: border-box;
+}
+
+/* ---------------- Boot preloader ---------------- */
+
+.xp-boot {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.7s ease;
+  cursor: wait;
+}
+
+.xp-boot.done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.xp-boot-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 22vh;
+}
+
+.xp-boot-wordmark {
+  width: 120px;
+  height: 120px;
+  image-rendering: auto;
+  filter: drop-shadow(0 0 14px rgba(90, 140, 255, 0.45));
+}
+
+.xp-boot-brand {
+  color: #fff;
+  font: italic bold 42px 'Franklin Gothic Medium', Tahoma, sans-serif;
+  letter-spacing: 1px;
+  text-shadow: 0 0 18px rgba(90, 140, 255, 0.8), 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.xp-boot-edition {
+  color: #aab8e8;
+  font: 12px Tahoma, sans-serif;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.xp-boot-footer {
+  position: absolute;
+  bottom: 24px;
+  right: 32px;
+  color: #888;
+  font: italic 11px Tahoma, sans-serif;
+}
+
+.xp-boot-bar {
+  position: absolute;
+  bottom: 9%;
+  width: 460px;
+  max-width: 70vw;
+  height: 16px;
+  border: 2px solid #8b9bbb;
+  background: #000;
+  overflow: hidden;
+}
+
+.xp-boot-bar-block {
+  display: block;
+  width: 22%;
+  height: 100%;
+  background-color: #5f6fe8;
+  animation: xp-boot-scroll 2.4s linear infinite;
+}
+
+@keyframes xp-boot-scroll {
+  0% {
+    transform: translateX(-100%);
+  }
+  64% {
+    background-color: #5f6fe8;
+  }
+  70% {
+    background-color: #ffbb00;
+  }
+  100% {
+    transform: translateX(560%);
+  }
 }
 
 body.xp-dragging,
@@ -55,9 +162,19 @@ body.xp-dragging * {
 
 /* ---------------- Desktop icons ---------------- */
 
-.xp-desktop-icon {
+.xp-desktop-icons {
   position: absolute;
-  top: 0;
+  top: 8px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  z-index: 0;
+}
+
+.xp-desktop-icon {
+  position: relative;
   width: 76px;
   margin: 0;
   padding: 4px 2px 3px;
@@ -70,17 +187,7 @@ body.xp-dragging * {
   font: inherit;
   color: #fff;
   cursor: default;
-  /* Stack down the left edge with a per-item offset */
 }
-
-.xp-desktop-icon:nth-of-type(1) { top: 8px; }
-.xp-desktop-icon:nth-of-type(2) { top: 92px; }
-.xp-desktop-icon:nth-of-type(3) { top: 176px; }
-.xp-desktop-icon:nth-of-type(4) { top: 260px; }
-.xp-desktop-icon:nth-of-type(5) { top: 344px; }
-.xp-desktop-icon:nth-of-type(6) { top: 428px; }
-.xp-desktop-icon:nth-of-type(7) { top: 512px; }
-.xp-desktop-icon:nth-of-type(8) { top: 596px; }
 
 .xp-desktop-icon img {
   width: 32px;
@@ -99,8 +206,8 @@ body.xp-dragging * {
 }
 
 .xp-desktop-icon.hovered {
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(160, 195, 240, 0.7);
+  background: rgba(49, 106, 197, 0.35);
 }
 
 .xp-desktop-icon.selected {
@@ -122,15 +229,45 @@ body.xp-dragging * {
   min-height: 120px;
   background: var(--xp-face);
   border-radius: 8px 8px 0 0;
+  border: 1px solid #0831d9;
   box-shadow:
     inset -1px -1px 0 rgba(0, 0, 0, 0.35),
     inset 1px 1px 0 rgba(255, 255, 255, 0.7),
-    2px 2px 12px rgba(0, 0, 0, 0.45);
-  border: 1px solid #003ca8;
+    2px 2px 10px rgba(0, 0, 0, 0.35);
+  transform-origin: 50% 80%;
+  animation: xp-window-open 0.16s cubic-bezier(0.2, 0.9, 0.35, 1.15);
+}
+
+.xp-window.focused {
+  border-color: #0831d9;
+  box-shadow:
+    inset -1px -1px 0 rgba(0, 0, 0, 0.35),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.7),
+    3px 4px 18px rgba(0, 0, 0, 0.5);
+}
+
+.xp-window.blurred {
+  border-color: #7593d8;
+  box-shadow:
+    inset -1px -1px 0 rgba(0, 0, 0, 0.3),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.6),
+    2px 2px 8px rgba(0, 0, 0, 0.28);
 }
 
 .xp-window.maximized {
   border-radius: 0;
+  animation: none;
+}
+
+@keyframes xp-window-open {
+  from {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* Resize handles on window edges and corners */
@@ -150,12 +287,12 @@ body.xp-dragging * {
 .xp-resize-sw { bottom: -4px; left: -4px; width: 12px; height: 12px; cursor: nesw-resize; }
 
 .xp-titlebar {
-  height: 26px;
-  flex: 0 0 26px;
+  height: 28px;
+  flex: 0 0 28px;
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 0 3px 0 4px;
+  padding: 0 3px 0 5px;
   margin: 2px 2px 0;
   border-radius: 7px 7px 0 0;
   background: var(--xp-title-active);
@@ -289,6 +426,7 @@ body.xp-dragging * {
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.25);
   margin: 4px;
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .xp-panel {
@@ -430,27 +568,6 @@ body.xp-dragging * {
   margin-top: 8px;
 }
 
-.xp-live-demo {
-  flex: 1;
-  min-height: 0;
-  width: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.35);
-  background: #fff;
-  margin: 0 4px 4px;
-}
-
-.xp-live-demo-empty {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 4px 4px;
-  border: 1px solid #b1aa8d;
-  background: #ece9d8;
-  padding: 12px;
-  text-align: center;
-}
-
 /* Menubar / statusbar / address bar */
 
 .xp-menubar {
@@ -538,37 +655,6 @@ body.xp-dragging * {
   padding: 8px 6px;
 }
 
-.xp-explorer-side-header {
-  color: #fff;
-  font-weight: bold;
-  padding: 2px 6px 8px;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-}
-
-.xp-explorer-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  width: 100%;
-  padding: 4px 6px;
-  background: transparent;
-  border: 1px solid transparent;
-  color: #fff;
-  font: 11px Tahoma, sans-serif;
-  text-align: left;
-  cursor: pointer;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-}
-
-.xp-explorer-item:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.xp-explorer-item.selected {
-  background: var(--xp-highlight);
-  border-color: rgba(255, 255, 255, 0.6);
-}
-
 .xp-explorer-main {
   flex: 1;
   min-width: 0;
@@ -607,6 +693,59 @@ body.xp-dragging * {
 .xp-file-icon span {
   text-align: center;
   overflow-wrap: break-word;
+}
+
+/* Luna task pane (About sidebar) */
+
+.xp-taskpane {
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  margin: 0 2px 10px;
+}
+
+.xp-taskpane-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: linear-gradient(180deg, #ffffff 0%, #e4eefb 85%, #d3e2f6 100%);
+  border-bottom: 1px solid #b8cbe4;
+  color: #1a3a6b;
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.xp-taskpane-body {
+  padding: 5px;
+  background: linear-gradient(180deg, #f6f9fd 0%, #e9f0fa 100%);
+}
+
+.xp-taskpane-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 6px;
+  background: transparent;
+  border: 1px solid transparent;
+  font: 11px Tahoma, sans-serif;
+  color: #215dc6;
+  text-align: left;
+  cursor: pointer;
+}
+
+.xp-taskpane-item:hover {
+  background: #d8e6fa;
+  border-color: #a8c4e8;
+  color: #215dc6;
+}
+
+.xp-taskpane-item.selected {
+  background: var(--xp-highlight);
+  border-color: rgba(255, 255, 255, 0.6);
+  color: #fff;
 }
 
 /* Document viewer (Resume) */
@@ -745,17 +884,24 @@ body.xp-dragging * {
 .xp-start-button {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  gap: 5px;
   margin: 0 6px 0 2px;
-  padding: 0 18px 2px 8px;
+  padding: 0 14px 0 10px;
   border: none;
   border-radius: 0 9px 9px 0;
-  background: linear-gradient(180deg, #59a82d 0%, #3f8f1f 45%, #357f18 90%, #2a6b10 100%);
+  background: linear-gradient(180deg, #7ec14d 0%, #59a82d 12%, #3f8f1f 45%, #357f18 85%, #2a6b10 100%);
   color: #fff;
-  font: italic bold 15px 'Franklin Gothic Medium', Tahoma, sans-serif;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+  font: italic bold 16px 'Franklin Gothic Medium', Tahoma, sans-serif;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
   cursor: pointer;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    1px 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.xp-start-button .start-word {
+  font-style: italic;
 }
 
 .xp-start-button:hover {
@@ -764,19 +910,17 @@ body.xp-dragging * {
 
 .xp-start-button.open,
 .xp-start-button:active {
-  filter: brightness(0.9);
-  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.4);
+  filter: brightness(0.88);
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.45);
 }
 
 .xp-start-flag {
   width: 18px;
   height: 18px;
   display: inline-block;
-  background:
-    conic-gradient(from 0deg at 50% 50%, #f65314 0deg 90deg, #7cbb00 90deg 180deg, #00a1f1 180deg 270deg, #ffbb00 270deg 360deg);
-  border-radius: 3px;
   transform: rotate(-8deg) skewX(-4deg);
-  box-shadow: 0 0 2px rgba(255, 255, 255, 0.7);
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.7));
+  border-radius: 3px;
 }
 
 .xp-taskbuttons {
@@ -826,6 +970,46 @@ body.xp-dragging * {
   text-overflow: ellipsis;
 }
 
+/* Quick Launch — small flat icons between Start and task buttons */
+
+.xp-quicklaunch {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding: 0 4px 0 2px;
+  border-left: 1px solid rgba(255, 255, 255, 0.35);
+  border-right: 1px solid rgba(0, 0, 0, 0.22);
+  box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+.xp-quicklaunch button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.xp-quicklaunch button:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.xp-quicklaunch button:active {
+  background: rgba(0, 0, 0, 0.2);
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
+.xp-quicklaunch img {
+  pointer-events: none;
+}
+
 /* System tray + clock */
 
 .xp-tray {
@@ -845,6 +1029,74 @@ body.xp-dragging * {
   text-align: center;
 }
 
+.xp-tray-mail {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+  cursor: pointer;
+  border-radius: 2px;
+  animation: xp-tray-mail-wiggle 2.4s ease-in-out infinite;
+}
+
+.xp-tray-mail img {
+  display: block;
+  pointer-events: none;
+}
+
+.xp-tray-mail:hover {
+  filter: brightness(1.15);
+}
+
+.xp-tray-mail:focus-visible {
+  outline: 1px dotted #fff;
+  outline-offset: 1px;
+}
+
+.xp-tray-clippy {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  line-height: 0;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.xp-tray-clippy img {
+  display: block;
+  pointer-events: none;
+}
+
+.xp-tray-clippy:hover {
+  filter: brightness(1.15);
+}
+
+.xp-tray-clippy:focus-visible {
+  outline: 1px dotted #fff;
+  outline-offset: 1px;
+}
+
+@keyframes xp-tray-mail-wiggle {
+  0%,
+  70%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-2px) rotate(-8deg);
+  }
+  80% {
+    transform: translateY(0) rotate(6deg);
+  }
+  85% {
+    transform: translateY(-1px) rotate(-4deg);
+  }
+  90% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
 /* ---------------- Start menu ---------------- */
 
 .xp-startmenu {
@@ -852,7 +1104,7 @@ body.xp-dragging * {
   left: 0;
   bottom: 30px;
   width: 386px;
-  z-index: 6000;
+  z-index: 49999;
   border: 1px solid #0a3d8a;
   border-radius: 6px 6px 0 0;
   overflow: hidden;
@@ -871,34 +1123,60 @@ body.xp-dragging * {
   }
 }
 
+.xp-startmenu.closing {
+  animation: xp-startmenu-out 0.14s ease-in forwards;
+}
+
+@keyframes xp-startmenu-out {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(8px);
+    opacity: 0.6;
+  }
+}
+
 .xp-startmenu-header {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 10px;
-  background: linear-gradient(180deg, #1e50c8 0%, #2a63d8 50%, #1941a5 100%);
+  padding: 7px 10px;
+  background: linear-gradient(
+    180deg,
+    #1868d6 0%,
+    #2d84e8 12%,
+    #2565d8 30%,
+    #1b4fd0 60%,
+    #1747c4 85%,
+    #123fa8 100%
+  );
   color: #fff;
-  font: bold 14px Tahoma, sans-serif;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+  font: bold 15px Tahoma, sans-serif;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
   border-bottom: 2px solid #ff9c00;
 }
 
 .xp-startmenu-header img {
-  border: 2px solid rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 4px;
   background: #fff;
   width: 42px;
   height: 42px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.45);
 }
 
 .xp-startmenu-body {
   display: flex;
   background: #fff;
+  border-top: 1px solid #7ba2e0;
 }
 
 .xp-startmenu-programs {
   list-style: none;
   margin: 0;
-  padding: 6px;
+  padding: 8px 5px;
   width: 216px;
   background: #fff;
 }
@@ -912,9 +1190,10 @@ body.xp-dragging * {
   align-items: center;
   gap: 8px;
   width: 100%;
-  padding: 5px 8px;
+  padding: 4px 8px;
   background: transparent;
-  border: none;
+  border: 1px solid transparent;
+  border-radius: 2px;
   font: 11px Tahoma, sans-serif;
   color: #1a1a1a;
   cursor: pointer;
@@ -923,21 +1202,46 @@ body.xp-dragging * {
 
 .xp-startmenu-programs button:hover {
   background: var(--xp-highlight);
+  border-color: rgba(255, 255, 255, 0.4);
   color: #fff;
+}
+
+/* Featured (first pinned) item + All Programs row */
+
+.xp-startmenu-programs button.featured {
+  font-weight: bold;
+}
+
+.xp-startmenu-programs button.featured span {
+  font-size: 12px;
+}
+
+.xp-startmenu-allprogs {
+  margin-top: 5px;
+  padding-top: 7px !important;
+  border-top: 1px solid #c4d4ec !important;
+  border-radius: 0 0 2px 2px !important;
+  font-weight: bold;
+}
+
+.xp-startmenu-allprogs.expanded {
+  background: #d8e6fa;
+  border-color: #a8c4e8 !important;
 }
 
 .xp-startmenu-divider {
   width: 1px;
-  background: #c8c8c8;
-  margin: 4px 0;
+  background: #95bdee;
+  margin: 0;
+  box-shadow: 1px 0 0 rgba(255, 255, 255, 0.6);
 }
 
 .xp-startmenu-actions {
   list-style: none;
   margin: 0;
-  padding: 6px;
+  padding: 8px 5px;
   width: 168px;
-  background: #d8e4f8;
+  background: linear-gradient(180deg, #d3e5fa 0%, #c4dcf8 50%, #b8d2f4 100%);
 }
 
 .xp-startmenu-actions button {
@@ -945,9 +1249,10 @@ body.xp-dragging * {
   align-items: center;
   gap: 8px;
   width: 100%;
-  padding: 5px 8px;
+  padding: 4px 8px;
   background: transparent;
-  border: none;
+  border: 1px solid transparent;
+  border-radius: 2px;
   font: 11px Tahoma, sans-serif;
   color: #1a1a1a;
   cursor: pointer;
@@ -956,7 +1261,55 @@ body.xp-dragging * {
 
 .xp-startmenu-actions button:hover {
   background: var(--xp-highlight);
+  border-color: rgba(255, 255, 255, 0.4);
   color: #fff;
+}
+
+.xp-startmenu-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  padding: 6px 12px;
+  background: linear-gradient(
+    180deg,
+    #1c9ce8 0%,
+    #2187e0 18%,
+    #1b66d8 55%,
+    #1354c8 85%,
+    #0f47b4 100%
+  );
+  border-top: 1px solid #5a90e0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.65);
+}
+
+.xp-startmenu-footer button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: #fff;
+  font: 11px Tahoma, sans-serif;
+  cursor: pointer;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.65);
+}
+
+.xp-startmenu-footer button:hover {
+  background: rgba(255, 190, 60, 0.22);
+  border-color: rgba(255, 210, 110, 0.65);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.xp-startmenu-footer button:active {
+  background: rgba(255, 190, 60, 0.38);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.xp-startmenu-footer img {
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
 }
 
 /* ---------------- Shutdown screen ---------------- */
@@ -974,8 +1327,43 @@ body.xp-dragging * {
   text-align: center;
 }
 
+.xp-shutdown-screen.xp-shutdown-active {
+  background: radial-gradient(circle at 50% 28%, #4a83e8 0%, #245edb 45%, #14378f 100%);
+  color: #fff;
+  align-items: flex-start;
+  padding-top: 34vh;
+}
+
+.xp-shutdown-window {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  background: #d4d0c8;
+  color: #000;
+  border: 1px solid #003ca8;
+  box-shadow: inset -1px -1px 0 rgba(0, 0, 0, 0.35), inset 1px 1px 0 rgba(255, 255, 255, 0.7);
+  padding: 22px 28px;
+}
+
+.xp-shutdown-title {
+  font: 600 22px 'Franklin Gothic Medium', Tahoma, sans-serif;
+  color: #003ca8;
+  white-space: nowrap;
+}
+
+.xp-shutdown-wait {
+  font-size: 12px;
+  font-style: italic;
+  color: #333;
+}
+
 .xp-shutdown-box p {
   margin-bottom: 16px;
+}
+
+.xp-shutdown-hint {
+  font-size: 12px;
+  color: #888;
 }
 
 .xp-shutdown-screen .xp-btn {
@@ -1007,16 +1395,184 @@ body.xp-dragging * {
   background: #f0efe2;
 }
 
+/* ---------------- Minesweeper ---------------- */
+
+.xp-ms-menubar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.xp-ms-select {
+  font: inherit;
+  padding: 1px 2px;
+  background: #fff;
+  color: #1a1a1a;
+  border: 1px solid #7f9db9;
+}
+
+.xp-ms-new {
+  font: inherit;
+  padding: 2px 10px;
+  background: var(--xp-face);
+  color: #1a1a1a;
+  border: 1px solid #7f9db9;
+  cursor: default;
+}
+
+.xp-ms-new:active {
+  border-style: inset;
+}
+
+.xp-ms-board-wrap {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.xp-ms-panel {
+  background: #c0c0c0;
+  border: 3px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  padding: 6px;
+}
+
+.xp-ms-hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  padding: 4px 6px;
+  margin-bottom: 6px;
+}
+
+.xp-ms-led {
+  font-family: 'Lucida Console', 'Courier New', monospace;
+  font-size: 19px;
+  font-weight: bold;
+  line-height: 1;
+  letter-spacing: 1px;
+  color: #ff0000;
+  background: #000;
+  padding: 2px 3px;
+  border: 1px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  min-width: 44px;
+  text-align: center;
+}
+
+.xp-ms-face {
+  width: 28px;
+  height: 28px;
+  font-size: 15px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  padding: 0;
+  cursor: default;
+}
+
+.xp-ms-face:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.xp-ms-grid {
+  display: grid;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.xp-ms-grid.cols-9 {
+  grid-template-columns: repeat(9, 20px);
+}
+
+.xp-ms-grid.cols-16 {
+  grid-template-columns: repeat(16, 20px);
+}
+
+.xp-ms-grid.cols-30 {
+  grid-template-columns: repeat(30, 20px);
+}
+
+.xp-ms-cell {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 1;
+  background: #c0c0c0;
+  color: #1a1a1a;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  cursor: default;
+  touch-action: manipulation;
+}
+
+.xp-ms-cell.covered:hover {
+  border-color: #ffffff #a0a0a0 #a0a0a0 #ffffff;
+}
+
+.xp-ms-cell:not(.covered) {
+  border: 1px solid #b0b0b0;
+}
+
+.xp-ms-cell.struck {
+  background: #ff0000;
+}
+
+.xp-ms-cell span {
+  pointer-events: none;
+}
+
+.xp-ms-message {
+  font-weight: bold;
+  padding: 4px 10px;
+  background: var(--xp-face);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
 /* ---------------- Responsive adjustments ---------------- */
 
-@media (max-width: 768px) {
-  .xp-desktop-icon:nth-of-type(n) {
-    top: auto;
-    position: relative;
+/* --- Tablet / small laptop --- */
+@media (max-width: 1100px) {
+  .xp-explorer-side {
+    width: 148px;
+    flex-basis: 148px;
   }
 
-  .xp-desktop-icon {
-    position: absolute;
+  .xp-startmenu {
+    width: min(386px, calc(100vw - 8px));
+  }
+}
+
+/* --- Tablet portrait / large phone landscape --- */
+@media (max-width: 768px) {
+  .xp-desktop-icons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: calc(100% - 8px);
+    max-height: 40vh;
+    gap: 4px;
+    padding: 0 4px;
   }
 
   .xp-desktop {
@@ -1024,13 +1580,116 @@ body.xp-dragging * {
   }
 
   .xp-window {
-    min-width: 200px;
+    min-width: 160px;
+  }
+
+  /* Explorer: stack sidebar above content so panes stay usable. */
+  .xp-explorer-split {
+    flex-direction: column;
+  }
+
+  .xp-explorer-side {
+    width: 100%;
+    flex: 0 0 auto;
+    max-height: 34%;
+    border-bottom: 1px solid #b1aa8d;
+    background: linear-gradient(180deg, #7aa7e8 0%, #5a8ade 50%, #4a72c8 100%);
+  }
+
+  .xp-explorer-main {
+    border-left: none;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .xp-explorer-toolbar,
+  .xp-doc-toolbar {
+    flex-wrap: wrap;
+    row-gap: 4px;
+  }
+
+  .xp-explorer-address {
+    flex: 1 1 100%;
+    order: 10;
+  }
+
+  /* Task pane grids inside sidebars */
+  .xp-taskpane-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+
+  .xp-taskpane-item {
+    width: auto;
+    flex: 1 1 auto;
+  }
+
+  /* Contact values can be long emails/URLs */
+  .xp-contact-value {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .xp-panel-title {
+    font-size: 13px;
+    flex-wrap: wrap;
+  }
+
+  .xp-btn-row {
+    flex-wrap: wrap;
+  }
+
+  /* Boot / shutdown chrome */
+  .xp-boot-wordmark {
+    width: 96px;
+    height: 96px;
+  }
+
+  .xp-boot-brand {
+    font-size: 34px;
+  }
+
+  .xp-boot-bar {
+    width: min(460px, 86vw);
+  }
+
+  .xp-boot-footer {
+    right: 16px;
+    bottom: 16px;
+    font-size: 10px;
+  }
+
+  .xp-shutdown-title {
+    white-space: normal;
+    font-size: 18px;
+  }
+
+  .xp-shutdown-window {
+    margin: 0 16px;
+    padding: 18px 16px;
+    gap: 14px;
+  }
+
+  .xp-shutdown-screen.xp-shutdown-active {
+    padding-top: 28vh;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  /* Titlebar buttons: slightly larger hit targets */
+  .xp-tb-btn {
+    width: 24px;
+    height: 24px;
   }
 }
 
+/* --- Phone --- */
 @media (max-width: 600px) {
   .xp-startmenu {
     width: 100vw;
+    max-height: calc(100dvh - 30px);
+    overflow-y: auto;
   }
 
   .xp-startmenu-body {
@@ -1045,5 +1704,443 @@ body.xp-dragging * {
   .xp-startmenu-programs,
   .xp-startmenu-actions {
     width: auto;
+    max-height: none;
   }
+
+  .xp-startmenu-programs {
+    padding-bottom: 4px;
+  }
+
+  .xp-startmenu-actions {
+    padding-top: 4px;
+  }
+
+  .xp-quicklaunch {
+    display: none;
+  }
+
+  .xp-startmenu-footer {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .xp-startmenu-footer button {
+    padding: 6px 10px;
+  }
+
+  .xp-startmenu-programs button,
+  .xp-startmenu-actions button {
+    padding: 7px 8px;
+  }
+
+  /* Taskbar density */
+  .xp-start-button {
+    padding: 0 10px 0 8px;
+    margin-right: 4px;
+    font-size: 14px;
+  }
+
+  .xp-taskbutton {
+    flex: 0 1 96px;
+    padding: 0 4px;
+    font-size: 10px;
+  }
+
+  .xp-tray {
+    gap: 4px;
+    padding: 0 6px 0 4px;
+  }
+
+  .xp-clock {
+    min-width: 44px;
+    font-size: 10px;
+  }
+
+  /* Explorer / apps */
+  .xp-explorer-side {
+    max-height: 40%;
+  }
+
+  .xp-file-icon {
+    width: 76px;
+    font-size: 10px;
+  }
+
+  .xp-icon-grid {
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .xp-contact-rows {
+    padding: 6px;
+    gap: 4px;
+  }
+
+  .xp-contact-row {
+    padding: 6px;
+    gap: 8px;
+  }
+
+  .xp-doc-name {
+    font-size: 16px;
+  }
+
+  .xp-statusbar {
+    font-size: 9px;
+    gap: 4px;
+    padding: 0 4px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .xp-menubar span {
+    padding: 4px 6px;
+  }
+
+  /* Minesweeper chrome on phones */
+  .xp-ms-menubar {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .xp-ms-new,
+  .xp-ms-select {
+    min-height: 28px;
+  }
+
+  .xp-ms-board-wrap {
+    padding: 6px;
+  }
+
+  /* Terminal input slightly larger for soft keyboards */
+  .xp-terminal-input {
+    font-size: 14px;
+  }
+
+  .xp-terminal-scroll {
+    font-size: 11px;
+  }
+
+  /* Boot */
+  .xp-boot-logo {
+    margin-bottom: 16vh;
+  }
+
+  .xp-boot-wordmark {
+    width: 80px;
+    height: 80px;
+  }
+
+  .xp-boot-brand {
+    font-size: 28px;
+  }
+
+  .xp-boot-edition {
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  /* Desktop icons: allow scrolling if many */
+  .xp-desktop-icons {
+    max-height: 36vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+/* --- Very small phones --- */
+@media (max-width: 480px) {
+  .xp-start-button .start-word {
+    font-size: 13px;
+  }
+
+  .xp-taskbutton {
+    flex: 0 1 72px;
+  }
+
+  .xp-taskbutton-label {
+    max-width: 56px;
+  }
+
+  .xp-tb-btn {
+    width: 26px;
+    height: 26px;
+  }
+
+  .xp-titlebar {
+    height: 32px;
+    flex-basis: 32px;
+  }
+
+  .xp-explorer-side {
+    max-height: 46%;
+  }
+
+  .xp-file-icon {
+    width: 68px;
+  }
+
+  .xp-boot-bar {
+    height: 14px;
+  }
+
+  .xp-shutdown-box {
+    margin: 0 12px;
+    padding: 16px 12px;
+  }
+}
+
+/* --- Touch / coarse pointer: bigger hit targets --- */
+@media (pointer: coarse) {
+  .xp-tb-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .xp-titlebar {
+    height: 34px;
+    flex-basis: 34px;
+  }
+
+  .xp-start-button {
+    min-height: 28px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .xp-quicklaunch button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .xp-startmenu-programs button,
+  .xp-startmenu-actions button,
+  .xp-startmenu-footer button {
+    min-height: 36px;
+  }
+
+  .xp-desktop-icon {
+    min-width: 64px;
+    min-height: 64px;
+  }
+
+  .xp-btn {
+    min-height: 32px;
+    padding: 6px 12px;
+  }
+
+  .xp-ms-face {
+    width: 34px;
+    height: 34px;
+  }
+
+  /* Grow cells with the grid tracks (board-wrap scrolls if needed). */
+  .xp-ms-grid.cols-9 {
+    grid-template-columns: repeat(9, 28px);
+  }
+
+  .xp-ms-grid.cols-16 {
+    grid-template-columns: repeat(16, 28px);
+  }
+
+  .xp-ms-grid.cols-30 {
+    grid-template-columns: repeat(30, 28px);
+  }
+
+  .xp-ms-cell {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+
+  .xp-resize-n,
+  .xp-resize-s {
+    height: 12px;
+  }
+
+  .xp-resize-e,
+  .xp-resize-w {
+    width: 12px;
+  }
+
+  .xp-resize-ne,
+  .xp-resize-nw,
+  .xp-resize-se,
+  .xp-resize-sw {
+    width: 18px;
+    height: 18px;
+  }
+
+  .xp-taskpane-item {
+    min-height: 32px;
+  }
+
+  .xp-contact-row {
+    min-height: 44px;
+  }
+}
+
+/* --- Short viewports (landscape phones) --- */
+@media (max-height: 500px) {
+  .xp-boot-logo {
+    margin-bottom: 6vh;
+  }
+
+  .xp-boot-wordmark {
+    width: 64px;
+    height: 64px;
+  }
+
+  .xp-boot-brand {
+    font-size: 26px;
+  }
+
+  .xp-boot-bar {
+    bottom: 6%;
+    height: 12px;
+  }
+
+  .xp-startmenu {
+    max-height: calc(100dvh - 30px);
+    overflow-y: auto;
+  }
+
+  .xp-startmenu-header {
+    padding: 4px 8px;
+  }
+
+  .xp-startmenu-header img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .xp-shutdown-screen.xp-shutdown-active {
+    padding-top: 10vh;
+  }
+
+  .xp-desktop-icons {
+    max-height: 50vh;
+  }
+}
+
+/* Prefer dynamic viewport units where supported (mobile URL bar). */
+@supports (height: 100dvh) {
+  .xp-boot,
+  .xp-shutdown-screen {
+    height: 100dvh;
+  }
+}
+
+/* ---------------- Live Demos app ---------------- */
+
+.xp-livedemo-main {
+  display: flex;
+  flex-direction: column;
+  border-left: none;
+  background: #fff;
+}
+
+.xp-livedemo-viewport {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: #fff;
+  overflow: hidden;
+}
+
+.xp-livedemo-viewport iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.xp-livedemo-viewport.loaded iframe {
+  opacity: 1;
+}
+
+.xp-livedemo-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eef3fb 0%, #dce7f7 50%, #eef3fb 100%);
+  background-size: 200% 200%;
+  animation: livedemo-sweep 1.2s ease-in-out infinite;
+}
+
+.xp-livedemo-viewport.loaded .xp-livedemo-loading {
+  display: none;
+}
+
+.xp-livedemo-loader {
+  display: flex;
+  gap: 7px;
+}
+
+.xp-livedemo-loader span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #3a6bc8;
+  animation: livedemo-bounce 0.9s ease-in-out infinite;
+}
+
+.xp-livedemo-loader span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.xp-livedemo-loader span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes livedemo-bounce {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  40% {
+    transform: translateY(-7px);
+    opacity: 1;
+  }
+}
+
+@keyframes livedemo-sweep {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.xp-livedemo-statusbar {
+  flex: 0 0 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 8px;
+  background: var(--xp-face);
+  border-top: 1px solid #b1aa8d;
+  font-size: 10px;
+  color: #333;
+}
+
+.xp-livedemo-statusbar span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.xp-livedemo-note {
+  color: #667;
+  font-style: italic;
 }

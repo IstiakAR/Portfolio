@@ -1,0 +1,470 @@
+/* ---------------- Desktop gadgets (right side) ---------------- */
+
+.xp-gadget {
+  position: absolute;
+  z-index: 1; /* windows (z >= 10) always float above gadgets */
+  cursor: grab;
+  touch-action: none; /* full drag support on touch devices */
+}
+
+.xp-gadget.dragging {
+  cursor: grabbing;
+}
+
+.xp-gadget.dragging iframe,
+.xp-gadget.dragging canvas {
+  pointer-events: none;
+}
+
+/* Keep pets/assistant visible when the viewport shrinks — scale instead of hide. */
+@media (max-width: 1100px) {
+  .xp-pet-pikachu {
+    right: 4px;
+    width: 88px;
+  }
+
+  .xp-pet-pikachu img {
+    width: 88px;
+  }
+
+  .xp-pet-bowser {
+    width: 48px;
+  }
+
+  .xp-pet-sun {
+    top: 7%;
+    right: 8%;
+    width: 56px;
+  }
+
+  .xp-assistant {
+    right: 16px;
+    width: 88px;
+  }
+
+  .xp-assistant-body {
+    width: 52px;
+  }
+
+  .xp-assistant-bubble {
+    left: auto;
+    right: 0;
+    width: min(210px, calc(100vw - 72px));
+  }
+}
+
+@media (max-width: 768px) {
+  .xp-pet-pikachu {
+    right: 2px;
+    width: 72px;
+  }
+
+  .xp-pet-pikachu img {
+    width: 72px;
+  }
+
+  .xp-pet-bowser {
+    width: 40px;
+    top: 12%;
+  }
+
+  /* Triforce sits over the icon grid / windows on small screens. */
+  .xp-pet-sun {
+    display: none;
+  }
+
+  .xp-assistant {
+    right: 8px;
+    top: 36%;
+    width: 76px;
+  }
+
+  .xp-assistant-body {
+    width: 44px;
+  }
+
+  .xp-assistant-bubble {
+    width: min(200px, calc(100vw - 64px));
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .xp-pet-pikachu {
+    width: 56px;
+  }
+
+  .xp-pet-pikachu img {
+    width: 56px;
+  }
+
+  .xp-pet-bowser {
+    width: 32px;
+  }
+
+  .xp-assistant {
+    width: 64px;
+  }
+
+  .xp-assistant-body {
+    width: 36px;
+  }
+
+  .xp-assistant-bubble {
+    width: min(180px, calc(100vw - 56px));
+    left: auto;
+    right: 0;
+  }
+}
+
+/* Short viewports (landscape phones): free vertical space for windows. */
+@media (max-height: 500px) {
+  .xp-pet-sun {
+    display: none;
+  }
+
+  .xp-pet-bowser {
+    top: 8%;
+    width: 32px;
+  }
+
+  .xp-pet-pikachu {
+    width: 48px;
+    bottom: 30px;
+  }
+
+  .xp-pet-pikachu img {
+    width: 48px;
+  }
+
+  .xp-assistant {
+    top: 24%;
+    width: 56px;
+  }
+
+  .xp-assistant-body {
+    width: 32px;
+  }
+
+  .xp-assistant-bubble {
+    width: min(170px, calc(100vw - 48px));
+    font-size: 10px;
+  }
+}
+
+/* ---------- Desktop pets (draggable gif critters) ---------- */
+
+.xp-pet {
+  position: absolute;
+  z-index: 1; /* above wallpaper/icons, below windows (z-index 5+) */
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.xp-pet.dragging {
+  cursor: grabbing;
+  z-index: 2;
+}
+
+.xp-pet.dragging img {
+  animation-play-state: paused;
+}
+
+.xp-pet img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.45));
+  animation: xp-pet-bob 2.8s ease-in-out infinite;
+}
+
+@keyframes xp-pet-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.xp-pet-pikachu {
+  left: auto;
+  right: 0px; /* closer to the tray, still clear of the clock */
+  top: auto;
+  bottom: 30px; /* rest on the taskbar's top edge, not inside it */
+  width: 120px;
+  line-height: 0;
+  z-index: 5001; /* taskbar is 5000 — always above it */
+  cursor: default;
+}
+
+.xp-pet-pikachu img {
+  width: 120px;
+  height: auto;
+  animation: xp-pet-bob 3.4s ease-in-out infinite;
+}
+
+/* Bowser — flies a looping path across the sky */
+.xp-pet-bowser {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 18%;
+  width: 64px;
+  pointer-events: none;
+  will-change: transform;
+  animation: xp-bowser-fly 28s linear infinite;
+}
+
+.xp-pet-bowser img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(2px 3px 3px rgba(0, 0, 0, 0.4));
+  animation: xp-bowser-flap 1.6s ease-in-out infinite;
+}
+
+@keyframes xp-bowser-fly {
+  0% {
+    transform: translate(-80px, 0) scaleX(-1);
+  }
+  25% {
+    transform: translate(30vw, -6vh) scaleX(-1);
+  }
+  50% {
+    transform: translate(60vw, 4vh) scaleX(-1);
+  }
+  74% {
+    transform: translate(calc(100vw + 10px), -3vh) scaleX(-1);
+  }
+  75% {
+    /* flip at the right edge, dip down to restart low */
+    transform: translate(calc(100vw + 10px), 40vh) scaleX(1);
+  }
+  99% {
+    transform: translate(-80px, 55vh) scaleX(1);
+  }
+  100% {
+    transform: translate(-80px, 0) scaleX(-1);
+  }
+}
+
+@keyframes xp-bowser-flap {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-4deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(5deg);
+  }
+}
+
+/* Triforce — pinned in the Bliss sky like the sun */
+.xp-pet-sun {
+  position: absolute;
+  top: 9%;
+  right: 13%;
+  width: 72px;
+  z-index: 1;
+  pointer-events: none;
+  filter: drop-shadow(0 0 14px rgba(255, 220, 70, 0.9))
+    drop-shadow(0 0 36px rgba(255, 190, 40, 0.55));
+  animation: xp-sun-glow 4.5s ease-in-out infinite;
+}
+
+.xp-pet-sun img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: none; /* parent already glows — avoid double-filter on the gif */
+  animation: xp-sun-pulse 6s ease-in-out infinite;
+}
+
+@keyframes xp-sun-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 14px rgba(255, 220, 70, 0.9))
+      drop-shadow(0 0 36px rgba(255, 190, 40, 0.55));
+  }
+  50% {
+    filter: drop-shadow(0 0 22px rgba(255, 230, 100, 1))
+      drop-shadow(0 0 52px rgba(255, 200, 50, 0.75));
+  }
+}
+
+@keyframes xp-sun-pulse {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.06) rotate(3deg);
+  }
+}
+
+/* ---------- Clippy-style assistant ---------- */
+
+.xp-assistant {
+  position: absolute;
+  z-index: 5000; /* floats like an assistant should, below window focus (9999) */
+  width: 110px;
+  right: 120px; /* CSS default until dragged / position restored */
+  top: 42%;
+  user-select: none;
+  touch-action: none;
+  cursor: grab;
+}
+
+.xp-assistant.dragging {
+  cursor: grabbing;
+}
+
+.xp-assistant-body {
+  position: relative;
+  width: 64px;
+  cursor: grab;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.35));
+  animation: xp-assistant-hop 6s ease-in-out infinite;
+}
+
+.xp-assistant.dragging .xp-assistant-body {
+  animation: none;
+  cursor: grabbing;
+}
+
+@keyframes xp-assistant-hop {
+  0%, 86%, 100% { transform: translateY(0); }
+  89% { transform: translateY(-9px); }
+  92% { transform: translateY(0); }
+  94% { transform: translateY(-4px); }
+  96% { transform: translateY(0); }
+}
+
+.xp-assistant-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 40px;
+  height: 6px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.4) 0%, transparent 70%);
+  animation: xp-assistant-shadow 6s ease-in-out infinite;
+}
+
+@keyframes xp-assistant-shadow {
+  0%, 86%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+  89% { transform: translateX(-50%) scale(0.7); opacity: 0.5; }
+  92% { transform: translateX(-50%) scale(1); opacity: 1; }
+  94% { transform: translateX(-50%) scale(0.85); opacity: 0.8; }
+  96% { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+
+.xp-assistant-pupil {
+  animation: xp-assistant-look 7s ease-in-out infinite;
+}
+
+@keyframes xp-assistant-look {
+  0%, 55%, 100% { transform: translateX(0); }
+  62% { transform: translateX(2.5px); }
+  78% { transform: translateX(-2px); }
+}
+
+.xp-assistant-bubble {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 42px;
+  width: 210px;
+  background: #ffffe1;
+  border: 1px solid #8a8a6a;
+  border-radius: 6px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+  padding: 6px 8px;
+  font-size: 11px;
+  line-height: 1.35;
+  color: #222;
+  opacity: 0;
+  transform: translateY(4px) scale(0.96);
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.xp-assistant-bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 18px;
+  border: 7px solid transparent;
+  border-top-color: #8a8a6a;
+}
+
+.xp-assistant-bubble::before {
+  content: '';
+  position: absolute;
+  top: calc(100% - 2px);
+  left: 19px;
+  border: 6px solid transparent;
+  border-top-color: #ffffe1;
+  z-index: 1;
+}
+
+.xp-assistant-bubble.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.xp-assistant-bubble-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  color: #5a5a3a;
+  margin-bottom: 3px;
+}
+
+.xp-assistant-bubble-close {
+  font: inherit;
+  font-size: 11px;
+  line-height: 1;
+  padding: 0 3px;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: default;
+  color: #8a8a6a;
+}
+
+.xp-assistant-bubble-close:hover {
+  border-color: #8a8a6a;
+  background: #f0f0c0;
+}
+
+.xp-assistant-bubble-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.xp-assistant-bubble-body svg {
+  flex: none;
+  margin-top: 1px;
+}
+
+.xp-assistant-bubble-next {
+  font: inherit;
+  font-size: 10px;
+  margin-top: 5px;
+  padding: 1px 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #003399;
+  cursor: default;
+}
+
+.xp-assistant-bubble-next:hover {
+  text-decoration: underline;
+  border-color: #8a8a6a;
+  background: #f0f0c0;
+}

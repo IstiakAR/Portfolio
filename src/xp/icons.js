@@ -20,13 +20,15 @@ export const icons = {
   exe: '/icons/harddrive-usb.png',
   exeSmall: '/icons/exe-small.png',
   cmd: '/icons/cmd.png',
+  minesweeper: '/icons/minesweeper.png',
   recycleBin: '/icons/recycle-bin.png',
   recycleBinFull: '/icons/recycle-bin-full.png',
   recycleBinSmall: '/icons/trash-small.png',
+  shutdown: '/icons/shutdown.png',
   network: '/icons/network.png',
   networkSmall: '/icons/network-small.png',
   wireless: '/icons/wireless.png',
-  volume: '/icons/network-small.png',
+  volume: '/icons/volume.png',
 }
 
 export default icons

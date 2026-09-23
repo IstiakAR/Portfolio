@@ -2,11 +2,9 @@ import { StrictMode, Suspense, lazy } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 
-const MinecraftPortfolio = lazy(() => import('./MinecraftPortfolio.jsx'))
 const XpPortfolio = lazy(() => import('./XpPortfolio.jsx'))
 
 const designs = {
-  minecraft: MinecraftPortfolio,
   xp: XpPortfolio,
 }
 

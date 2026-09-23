@@ -21,8 +21,7 @@ const HELP = [
 
 export default function TerminalApp() {
   const [lines, setLines] = useState(() => [
-    'Microsoft Windows XP [Version 5.1.2600]',
-    '(C) Copyright 1985-2001 Microsoft Corp.',
+    'iarOS [Version 1.0.2700]',
     '',
     "Type 'help' to see available commands.",
     '',
@@ -96,7 +95,7 @@ export default function TerminalApp() {
         )
         break
       case 'ver':
-        print('', 'Microsoft Windows XP [Version 5.1.2600]', '')
+        print('', 'iarOS [Version 1.0.2700]', '')
         break
       case 'clear':
       case 'cls':

@@ -50,21 +50,9 @@ export default function ProjectsApp() {
             </div>
           </div>
         </div>
-        {current.demo ? (
-          <iframe
-            className="xp-live-demo"
-            src={current.demo}
-            title={`${current.name} live demo`}
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock allow-downloads"
-          />
-        ) : (
-          <div className="xp-live-demo-empty">
-            No live demo for this project — it's a desktop / device project.
-          </div>
-        )}
-        <div className="xp-statusbar">{projects.length} objects</div>
-      </div>
-    )
+      <div className="xp-statusbar">{projects.length} objects</div>
+    </div>
+  )
   }
 
   return (

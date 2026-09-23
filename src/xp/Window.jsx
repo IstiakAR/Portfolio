@@ -47,8 +47,13 @@ export default function Window({ win, windows, children }) {
         const ny = ev.clientY - d.offsetY
         // Keep the title bar reachable: clamp within viewport
         const maxX = window.innerWidth - 80
-        const maxY = window.innerHeight - TASKBAR_HEIGHT - 8
-        moveWindow(win.id, Math.min(Math.max(nx, -9999), maxX), Math.min(Math.max(ny, 0), maxY))
+        const maxY = Math.max(0, window.innerHeight - TASKBAR_HEIGHT - 8)
+        const minY = Math.min(0, maxY - 24)
+        moveWindow(
+          win.id,
+          Math.min(Math.max(nx, -9999), maxX),
+          Math.min(Math.max(ny, minY), maxY)
+        )
       }
       const onUp = () => {
         dragState.current = null

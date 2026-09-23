@@ -19,23 +19,27 @@ export default function AboutApp() {
       <div className="xp-explorer-toolbar">
         <span className="xp-explorer-address">
           <img src={icons.folder} alt="" width="16" height="16" />
-          <span>C:\Documents and Settings\Portfolio\{section}</span>
+          <span>C:\Documents\Portfolio\{section}</span>
         </span>
       </div>
       <div className="xp-explorer-split">
         <div className="xp-explorer-side" role="navigation" aria-label="About sections">
-          <div className="xp-explorer-side-header">About Me</div>
-          {NAV.map((n) => (
-            <button
-              key={n.id}
-              type="button"
-              className={`xp-explorer-item ${section === n.id ? 'selected' : ''}`}
-              onClick={() => setSection(n.id)}
-            >
-              <img src={n.icon} alt="" width="16" height="16" />
-              <span>{n.label}</span>
-            </button>
-          ))}
+          <div className="xp-taskpane">
+            <div className="xp-taskpane-header">About Me</div>
+            <div className="xp-taskpane-body">
+              {NAV.map((n) => (
+                <button
+                  key={n.id}
+                  type="button"
+                  className={`xp-taskpane-item ${section === n.id ? 'selected' : ''}`}
+                  onClick={() => setSection(n.id)}
+                >
+                  <img src={n.icon} alt="" width="16" height="16" />
+                  <span>{n.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
         <div className="xp-explorer-main">
           {section === 'about' && (

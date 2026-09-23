@@ -5,7 +5,9 @@ import ResumeApp from './apps/ResumeApp.jsx'
 import SkillsApp from './apps/SkillsApp.jsx'
 import ContactApp from './apps/ContactApp.jsx'
 import TerminalApp from './apps/TerminalApp.jsx'
+import MinesweeperApp from './apps/MinesweeperApp.jsx'
 import RecycleBinApp from './apps/RecycleBinApp.jsx'
+import LiveDemosApp from './apps/LiveDemosApp.jsx'
 
 /* Application registry — the single source of truth for the desktop.
    Add an entry here and it appears on the desktop / Start menu / taskbar. */
@@ -77,6 +79,19 @@ export const APPS = [
     defaultY: 160,
   },
   {
+    id: 'live-demos',
+    title: 'Live Demos',
+    icon: icons.html,
+    component: LiveDemosApp,
+    onDesktop: true,
+    inStartMenu: true,
+    singleInstance: true,
+    defaultWidth: 860,
+    defaultHeight: 600,
+    defaultX: 120,
+    defaultY: 40,
+  },
+  {
     id: 'terminal',
     title: 'Command Prompt',
     icon: icons.cmd,
@@ -88,6 +103,19 @@ export const APPS = [
     defaultHeight: 400,
     defaultX: 340,
     defaultY: 190,
+  },
+  {
+    id: 'minesweeper',
+    title: 'Minesweeper',
+    icon: icons.minesweeper,
+    component: MinesweeperApp,
+    onDesktop: true,
+    inStartMenu: true,
+    singleInstance: true,
+    defaultWidth: 300,
+    defaultHeight: 400,
+    defaultX: 390,
+    defaultY: 220,
   },
   {
     id: 'recycle-bin',
